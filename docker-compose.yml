@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./chatbot
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"  # Vite will be accessible at localhost:3000
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"  # Django will be accessible at localhost:8000
+    networks:
+      - app-network
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - frontend
+
+networks:
+  app-network:
+    driver: bridge
