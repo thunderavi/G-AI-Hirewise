@@ -12,4 +12,4 @@ docker
         Frontend ---http://localhost:3000/
 
 
-Admin login-Aviranjan -1234
+Admin login-admin -12345

@@ -40,7 +40,7 @@ const ChatApp = () => {
 
     return (
         <div className="chat-app">
-            <h1 className="chat-title">Interview Preparation Chatbot</h1>
+            <h1 className="chat-title">Interview Preparation</h1>
             <form onSubmit={handleSubmit} className="input-form">
                 <textarea
                     value={userInput}

@@ -13,6 +13,10 @@ const LandingPage = () => {
                 <a href="#start-chat" className="start-chat-button">
                     Get Started
                 </a>
+                <p className="hero-description">
+    Login/Register to access features. Click on the corner ↑
+</p>
+
             </section>
 
             {/* Features Section */}

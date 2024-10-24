@@ -68,14 +68,14 @@ const JobFitChecker = () => {
     const determineFitStatus = (evaluation) => {
         const lowerCaseEval = evaluation.toLowerCase();
 
-        if (lowerCaseEval.includes('great fit') || lowerCaseEval.includes('excellent match') || lowerCaseEval.includes('perfect fit')) {
+        if (lowerCaseEval.includes('great match') || lowerCaseEval.includes('excellent match') || lowerCaseEval.includes('perfect fit')) {
             return 'Higher Chance';
-        } else if (lowerCaseEval.includes('good fit') || lowerCaseEval.includes('suitable') || lowerCaseEval.includes('strong match')) {
+        } else if (lowerCaseEval.includes('good match') || lowerCaseEval.includes('suitable') || lowerCaseEval.includes('strong match')) {
             return 'Good Fit';
-        } else if (lowerCaseEval.includes('not a good fit') || lowerCaseEval.includes('no match') || lowerCaseEval.includes('weak fit')) {
-            return 'Not Fit';
+        } else if (lowerCaseEval.includes('not a good match') || lowerCaseEval.includes('no match') || lowerCaseEval.includes('weak fit')) {
+            return 'Not Matched'; // Change here for specific feedback
         } else {
-            return 'Fit Unclear';
+            return 'Not fit for the Role'; // Default status when no match found
         }
     };
 

@@ -1,4 +1,3 @@
-// src/components/NavBar.jsx
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +7,13 @@ import { useAuth } from '../context/AuthContext'; // Import useAuth
 const NavBar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user, logout } = useAuth(); // Get user and logout from Auth context
+
+    const handleNavClick = (e) => {
+        if (!user) {
+            e.preventDefault(); // Prevent navigation if user is not logged in
+            setIsModalOpen(true); // Open login/register modal
+        }
+    };
 
     return (
         <>
@@ -22,11 +28,11 @@ const NavBar = () => {
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/">Home</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="/chat">Interview Prep</NavLink>
-                            </li>
-                            {user ? ( // Show user-specific links if logged in
+                            {user ? ( // Show tools and user-specific links if logged in
                                 <>
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link" to="/chat">Interview Prep</NavLink>
+                                    </li>
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/job-fit-checker">CV Analyzer</NavLink>
                                     </li>
@@ -42,7 +48,7 @@ const NavBar = () => {
                                 </>
                             ) : (
                                 <li className="nav-item">
-                                    <button className="nav-link btn" onClick={() => setIsModalOpen(true)}>Login/Register</button>
+                                    <button className="nav-link btn" onClick={() => setIsModalOpen(true)}>Login/Register to access features</button>
                                 </li>
                             )}
                         </ul>
