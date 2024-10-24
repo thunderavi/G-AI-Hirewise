@@ -160,32 +160,7 @@ const JobListing = () => {
 
             {/* Form to Add New Job */}
             <div>
-                <h2>Add New Job</h2>
-                <input
-                    type="text"
-                    placeholder="Job Title"
-                    value={newJob.title}
-                    onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Required Skills"
-                    value={newJob.skills}
-                    onChange={(e) => setNewJob({ ...newJob, skills: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Description"
-                    value={newJob.description}
-                    onChange={(e) => setNewJob({ ...newJob, description: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Apply Link"
-                    value={newJob.applyLink}
-                    onChange={(e) => setNewJob({ ...newJob, applyLink: e.target.value })}
-                />
-                <button onClick={handleAddJob}>Add Job</button>
+                
             </div>
         </div>
     );

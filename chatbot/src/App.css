@@ -53,7 +53,7 @@ h3 {
 }
 
 p {
-  background: #e9ecef;
+  background: repeat;
   padding: 10px;
   border-radius: 5px;
 }
@@ -87,7 +87,7 @@ p {
   padding: 10px;
   flex-grow: 1;
   overflow-y: auto;
-  background-color: #f7f7f7;
+  background-color: #fffbfb;
 }
 
 .message {
@@ -99,7 +99,7 @@ p {
 .message.user {
   text-align: right;
   color: blue;
-  background-color: #d1e7dd;
+  background-color: #ffffff;
 }
 
 .message.bot {

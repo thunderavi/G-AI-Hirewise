@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { getGroqChatCompletion } from '../services/groqService';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is included
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './JobFitChecker.css'; // Custom CSS for additional styling
 
 const JobFitChecker = () => {
     const [jobDetails, setJobDetails] = useState('');
     const [resume, setResume] = useState('');
     const [fitEvaluation, setFitEvaluation] = useState('');
     const [fitStatus, setFitStatus] = useState('');
-    const [gaps, setGaps] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -31,20 +31,17 @@ const JobFitChecker = () => {
         setError('');
         setFitEvaluation('');
         setFitStatus('');
-        setGaps('');
 
         try {
-            const messageContent = `Evaluate the following job details and resume for a good fit and provide a clear conclusion. Include any skill or experience gaps identified:\nJob Details: ${jobDetails}\nResume: ${resume}`;
+            const messageContent = `Evaluate the following job details and resume for a good fit and provide a clear conclusion:\nJob Details: ${jobDetails}\nResume: ${resume}`;
 
             const evaluation = await getGroqChatCompletion(messageContent);
 
             const formattedEvaluation = formatResponse(evaluation);
             const status = determineFitStatus(evaluation);
-            const identifiedGaps = extractGaps(evaluation);
 
             setFitEvaluation(formattedEvaluation);
             setFitStatus(status);
-            setGaps(identifiedGaps);
         } catch (error) {
             console.error('Error checking fit:', error);
             setError('An error occurred while evaluating fit. Please try again.');
@@ -54,10 +51,16 @@ const JobFitChecker = () => {
     };
 
     const formatResponse = (response) => {
-        const sections = response.split('\n\n');
+        // Remove any asterisks or unwanted characters
+        const cleanedResponse = response.replace(/\*/g, '').trim();
+        const sections = cleanedResponse.split('\n\n'); // Assuming double newlines separate sections
         return sections.map((section, index) => (
-            <div key={index} className="alert alert-success mt-2">
-                <p>{section}</p>
+            <div key={index} className="response-section">
+                {/* Make headings bold */}
+                {section.startsWith('Job Requirements') && <h4 className="font-weight-bold">{section}</h4>}
+                {section.startsWith('Resume Evaluation') && <h4 className="font-weight-bold">{section}</h4>}
+                {section.startsWith('Conclusion') && <h4 className="font-weight-bold">{section}</h4>}
+                {!section.startsWith('Job Requirements') && !section.startsWith('Resume Evaluation') && !section.startsWith('Conclusion') && <p>{section}</p>}
             </div>
         ));
     };
@@ -72,24 +75,14 @@ const JobFitChecker = () => {
         } else if (lowerCaseEval.includes('not a good fit') || lowerCaseEval.includes('no match') || lowerCaseEval.includes('weak fit')) {
             return 'Not Fit';
         } else {
-            return 'Fit Unclear'; // If no clear indicators are found
+            return 'Fit Unclear';
         }
-    };
-
-    const extractGaps = (evaluation) => {
-        const gapIndicators = ['gap', 'lack', 'missing', 'not sufficient', 'deficient', 'shortage'];
-        const gaps = gapIndicators.filter(gap => evaluation.toLowerCase().includes(gap));
-
-        if (gaps.length > 0) {
-            return 'Identified gaps: ' + gaps.join(', ');
-        }
-        return 'No significant gaps identified.';
     };
 
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Job Fit Checker</h2>
-            <form onSubmit={handleSubmit} className="border p-4 rounded shadow">
+            <form onSubmit={handleSubmit} className="border p-4 rounded shadow bg-light">
                 <div className="mb-3">
                     <label htmlFor="jobDetails" className="form-label">Job Details:</label>
                     <textarea
@@ -119,12 +112,11 @@ const JobFitChecker = () => {
             {error && <div className="alert alert-danger mt-3">{error}</div>}
             {fitEvaluation && (
                 <div className="mt-4">
-                    <h3>Fit Evaluation:</h3>
-                    <div>{fitEvaluation}</div>
                     <div className="alert alert-info mt-4">
                         <h4>Fit Status: {fitStatus}</h4>
-                        <p>{gaps}</p>
                     </div>
+                    <h3 className="text-success">Fit Evaluation:</h3>
+                    <div>{fitEvaluation}</div>
                 </div>
             )}
         </div>
